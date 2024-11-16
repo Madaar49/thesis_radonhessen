@@ -205,14 +205,12 @@ class Metrics:
 def predict_raster(input_stack, model, output_path):
 
       """
-      Predicts output values for each pixel in an input raster stack using a trained model, 
-      and saves the predictions as a new raster file.
-
-	
+      Predicts raster for each pixels using a trained model.
+      
       Parameters:
       - input_stack (str): Path to the input raster stack (multiband raster file).
-      - model (object): Trained machine learning model with a `.predict()` method.
-      - output_path (str): Path where the output raster with predictions will be saved.
+      - model (object): Trained machine learning model.
+      - output_path (str): Output raster save path.
 
       Returns:
       - None
