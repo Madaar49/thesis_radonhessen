@@ -1,4 +1,11 @@
-# columns.py
+# -*- coding: utf-8 -*-
+"""
+__author__ = "Augustine M Gbondo"
+__credits__ = ["Augustine M Gbondo"]
+__project__ = Geogenic radon potential mapping in Hessen using machine learning techniques
+__maintainer__ = "Augustine M Gbondo"
+__email__ = "gbondomadaar@gmail.com"
+"""
 
 # Columns to drop from masterdata
 raw_master_data_drop = [
