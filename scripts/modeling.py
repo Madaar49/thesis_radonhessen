@@ -13,33 +13,25 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-
 import geopandas as gpd
 import fiona
 import rasterio
-
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.svm import SVR
 from sklearn.neural_network import MLPRegressor
 from sklearn.linear_model import LinearRegression
-
 from sklearn.metrics import (
     mean_squared_error, r2_score, mean_absolute_error, 
-    mean_absolute_percentage_error,root_mean_squared_log_error, mean_squared_log_error
-)
+    mean_absolute_percentage_error,root_mean_squared_log_error, mean_squared_log_error)
 from sklearn.inspection import permutation_importance
-
 from sklearn.feature_selection import RFECV, f_regression
 from mlxtend.feature_selection import SequentialFeatureSelector as SFS
 from mlxtend.plotting import plot_sequential_feature_selection as plot_sfs
-
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 from sklearn.compose import ColumnTransformer
-
 from sklearn.model_selection import (
     train_test_split, KFold, LeaveOneGroupOut, 
-    cross_validate, cross_val_predict, GridSearchCV
-)
+    cross_validate, cross_val_predict, GridSearchCV)
 from sklearn.pipeline import Pipeline
 
 
@@ -235,11 +227,11 @@ def predict_raster(input_stack, model, output_path):
         predicted_raster = predictions.reshape(rows, cols)
         meta = src.meta
         meta.update({
-            'count': 1,  # Number of bands in the output raster
-            'dtype': 'float32'  # Data type of the output raster
+            'count': 1,  
+            'dtype': 'float32'  
         })
         with rasterio.open(output_path, 'w', **meta) as dst:
-            dst.write(predicted_raster, 1)  # Write the predicted raster to the output file
+            dst.write(predicted_raster, 1)  
 
 
 def feature_groups(dataframe, feature_groups_list):
