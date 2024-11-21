@@ -146,7 +146,7 @@ class DirectoryManager:
         """Print dash line"""
         print(f"{'-' * 80}")
 
-        
+# modified from https://github.com/OmdenaAI/omdena-philippines-renewable/blob/main/src/tasks/task-2-nightlight-processing/helpers/raster.py   
 # .................................................................
 
 class RasterProperties:
@@ -296,10 +296,6 @@ class RasterProcessor:
 
         """
         Define or update the projection of a raster file and save the result.
-
-        :param raster_file: Path to the input raster file.
-        :param crs: CRS definition in WKT or EPSG code.
-        :param output_file: Path to save the raster with the new projection.
         """
         with rasterio.open(raster_file) as src:
             meta = src.meta.copy()
@@ -315,10 +311,6 @@ class RasterProcessor:
         crs='EPSG:25832'
         """
         Reproject a raster file to a new CRS and save the result.
-
-        :param raster_file: Path to the input raster file.
-        :param crs: Target CRS definition in WKT or EPSG code.
-        :param output_file: Path to save the reprojected raster.
         """
         with rasterio.open(raster_file) as src:
             transform, width, height = calculate_default_transform(
@@ -347,11 +339,6 @@ class RasterProcessor:
         target_resolution = (250, 250)
         """
         Resample a raster to the target resolution.
-
-        Parameters:
-            input_raster (str): Path to the input raster file.
-            output_raster (str): Path to the output raster file.
-            target_res (tuple): Target resolution (width, height) in meters.
         """
         with rasterio.open(input_raster) as src:
             # Read the metadata of the input raster
@@ -397,10 +384,6 @@ class RasterProcessor:
     def clip_raster_gpkg(self, raster_file, vector_file_path, output_file):
         """
         Clip a raster using a shapefile and save the result with no-data value set to zero.
-
-        :param raster_file: Path to the input raster file.
-        :param shp_file_path: Path to the shapefile used for clipping.
-        :param output_file: Path to save the clipped raster.
         """
         # Read the shapefile
         #shapes = [mapping(geom) for geom in geodf.geometry]
@@ -432,10 +415,6 @@ class RasterProcessor:
     def clip_raster(self, raster_file, shp_file_path, output_file):
         """
         Clip a raster using a shapefile and save the result with no-data value set to zero.
-
-        :param raster_file: Path to the input raster file.
-        :param shp_file_path: Path to the shapefile used for clipping.
-        :param output_file: Path to save the clipped raster.
         """
         # Read the shapefile
         with fiona.open(shp_file_path, "r") as shapefile:
@@ -581,14 +560,10 @@ class RasterProcessor:
 #-----------------------------------------------------------------------------------------------#
 
 class RasterPlotter:
+        """
+        Plot single or batch rasters using various methods.
+        """
     def __init__(self, colormap='terrain', figsize=(10, 8), columns=3):
-        """
-        Initialize the RasterPlotter with parameters for plotting.
-
-        :param colormap: Colormap to use for plotting rasters. Default is 'terrain'.
-        :param figsize: Size of the figure. Default is (10, 8).
-        :param columns: Number of columns in the grid layout. Default is 3.
-        """
         self.colormap = colormap
         self.figsize = figsize
         self.columns = columns
@@ -629,8 +604,6 @@ class RasterPlotter:
     def plot_rasters(self, folder_path):
         """
         Plot all raster images from a folder in a grid layout with legends and tight layout.
-
-        :param folder_path: Path to the folder containing raster files.
         """
         raster_files = [f for f in os.listdir(
             folder_path) if f.lower().endswith('.tif') or f.lower().endswith('.tiff')]
@@ -665,10 +638,7 @@ class RasterPlotter:
         
     def plot_downsample_rasters(self, folder_path):
         """
-        Plot all raster images from a folder in a grid layout with legends and tight layout.
-
-        :param folder_path: Path to the folder containing raster files.
-        :param downsample_factor: Factor by which to downsample the rasters before plotting.
+        Downsample and plot all raster in a folder 
         """
         raster_files = [f for f in os.listdir(folder_path) if f.lower().endswith(('.tif', '.tiff'))]
         num_rasters = len(raster_files)
@@ -699,11 +669,7 @@ class RasterPlotter:
 
     def plot_downsample_raster(self, raster_file, downsample_factor=10):
         """
-        Plot a single raster image with a colormap and downsampling.
-
-        :param raster_file: Path to the raster file.
-        :param ax: The axis to plot the raster on.
-        :param downsample_factor: Factor by which to downsample the raster to reduce memory usage.
+        Plot a single downsampled raster image.
         """
         try:
             with rasterio.open(raster_file) as src:
@@ -750,8 +716,7 @@ class RasterPlotter:
     #@staticmethod
     def plot_raster_mask(self, raster_file):
         """
-        Plot a single raster image with a colormap, removing the square 
-        boundary outside the raster bounds.
+        Mask raster and plot.
         """
         try:
             with rasterio.open(raster_file) as src:
@@ -819,16 +784,7 @@ class RasterPlotter:
             
     def plot_raster_bands(self, raster_file, band_names=None, band=None):
         """
-        Plot a raster image with a shortened colormap (from min to max values) and a transparent background.
-
-        Parameters:
-        - raster_file (str): Path to the raster file.
-        - band_names (list, optional): List of custom names for each band to use as plot titles. 
-        If None, defaults to raster band descriptions.
-        - band (int, optional): The band number to plot (1-indexed). If None, plots all bands in subplots.
-
-        Returns:
-        - None
+        Plot all raster in a raster composite band. Option to ionclude band names. 
         """
         try:
             # Open the raster file
